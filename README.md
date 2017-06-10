@@ -20,7 +20,11 @@ var scope = new List<string>()
 string endpoint = "embeddedassistant.googleapis.com";
 await UserManager.Initialize(clientSecrets, "GoogleLibrary", endpoint, scope, "GoogleLibraryFolder");
 
+// here you have your AccessToken
+// with this Token you can authenticate with the google services
 var accessToken = UserManager.Instance.UserToken.AccessToken;
+
+// i implemented for example a method to get your google user data with the AccessToken
 var userData = await UserManager.Instance.GetUserData(accessToken);
 ```
 
