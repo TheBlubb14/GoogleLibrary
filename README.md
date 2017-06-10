@@ -26,5 +26,8 @@ var userData = await UserManager.Instance.GetUserData(accessToken);
 
 You can create your own ClientSecrets [here](https://console.cloud.google.com/apis/credentials)
 
+#### Info
+If there is a System.Reflection.TargetInvocationException try to update all NuGet Packages
+
 
 ##### Thanks to [this project](https://github.com/ac87/GoogleAssistantWindows) for the example to get started with google apis
