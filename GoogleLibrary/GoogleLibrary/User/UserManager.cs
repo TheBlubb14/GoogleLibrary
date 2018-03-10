@@ -1,6 +1,8 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Util.Store;
+using Grpc.Auth;
+using Grpc.Core;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -63,6 +65,12 @@ namespace GoogleLibrary.User
         /// with which you can authenticate with other google apis
         /// </summary>
         public TokenResponse UserToken => _userCredential?.Token;
+
+        /// <summary>
+        /// ChannelCredentials
+        /// </summary>
+        public ChannelCredentials ChannelCredential => _userCredential?.ToChannelCredentials();
+
         public static UserManager Instance;
 
         private CancellationToken _cancellationToken;
