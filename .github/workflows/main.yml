@@ -17,9 +17,7 @@ jobs:
                             
     - name: dotnet build GoogleLibrary
       shell: powershell
-      run: |
-        New-Item -ItemType Directory -Path C:\artifacts -Force
-        dotnet build .\GoogleLibrary\GoogleLibrary\GoogleLibrary.csproj -o ../output/GoogleLibrary
+      run: dotnet build .\GoogleLibrary\GoogleLibrary\GoogleLibrary.csproj -o ../output/GoogleLibrary
                                                     
     - name: dotnet pack release
       working-directory: GoogleLibrary
