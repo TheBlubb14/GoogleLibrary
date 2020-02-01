@@ -50,7 +50,7 @@ namespace GoogleLibrary.User
         /// </summary>
         public string DataStoreFolder
         {
-            get { return _dataStoreFolder; }
+            get => _dataStoreFolder;
             set
             {
                 _fileDataStore = new FileDataStore(value);
@@ -100,8 +100,8 @@ namespace GoogleLibrary.User
         /// <returns>client secrets</returns>
         public static ClientSecrets GetClientSecretsFromFile(string Path)
         {
-            using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read))
-                return GoogleClientSecrets.Load(stream).Secrets;
+            using var stream = new FileStream(Path, FileMode.Open, FileAccess.Read);
+            return GoogleClientSecrets.Load(stream).Secrets;
         }
 
         /// <summary>
@@ -172,31 +172,29 @@ namespace GoogleLibrary.User
 
             try
             {
-                using (var client = new HttpClient())
+                using var client = new HttpClient();
+                // TODO: do i need it?
+                client.CancelPendingRequests();
+
+                var profileUrl = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + AccessToken;
+                var output = await client.GetAsync(profileUrl);
+
+                if (output.IsSuccessStatusCode)
                 {
-                    // TODO: do i need it?
-                    client.CancelPendingRequests();
+                    var result = await output.Content.ReadAsStringAsync();
+                    userData = JsonConvert.DeserializeObject<GoogleUserData>(result);
 
-                    var profileUrl = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + AccessToken;
-                    var output = await client.GetAsync(profileUrl);
-
-                    if (output.IsSuccessStatusCode)
+                    if (SaveOnDisc && userData != null)
+                        File.WriteAllText(Path.Combine(_fileDataStore.FolderPath, "GoogleUserData.json"), result);
+                }
+                else
+                {
+                    userData = new GoogleUserData()
                     {
-                        var result = await output.Content.ReadAsStringAsync();
-                        userData = JsonConvert.DeserializeObject<GoogleUserData>(result);
-
-                        if (SaveOnDisc && userData != null)
-                            File.WriteAllText(Path.Combine(_fileDataStore.FolderPath, "GoogleUserData.json"), result);
-                    }
-                    else
-                    {
-                        userData = new GoogleUserData()
-                        {
-                            id = "-1",
-                            family_name = $"status code: {output.StatusCode.ToString()}",
-                            name = output.Content?.ReadAsStringAsync().Result,
-                        };
-                    }
+                        id = "-1",
+                        family_name = $"status code: {output.StatusCode}",
+                        name = output.Content?.ReadAsStringAsync().Result,
+                    };
                 }
             }
             catch (Exception ex)

@@ -1,6 +1,6 @@
 ﻿namespace GoogleLibrary.User
 {
-    public class GoogleUserData
+    public sealed class GoogleUserData
     {
         public string id { get; set; }
         public string name { get; set; }

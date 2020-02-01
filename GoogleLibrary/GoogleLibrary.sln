@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.12
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29721.120
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleLibrary", "GoogleLibrary\GoogleLibrary.csproj", "{0592B68A-1974-48F2-A30B-B78BBA10FCAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleLibrary", "GoogleLibrary\GoogleLibrary.csproj", "{E2A97768-866B-47F8-A955-A7E1B726BC2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0592B68A-1974-48F2-A30B-B78BBA10FCAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0592B68A-1974-48F2-A30B-B78BBA10FCAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0592B68A-1974-48F2-A30B-B78BBA10FCAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0592B68A-1974-48F2-A30B-B78BBA10FCAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2A97768-866B-47F8-A955-A7E1B726BC2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2A97768-866B-47F8-A955-A7E1B726BC2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2A97768-866B-47F8-A955-A7E1B726BC2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2A97768-866B-47F8-A955-A7E1B726BC2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5624BEA7-6462-461F-9941-F4F28E8FEC1B}
 	EndGlobalSection
 EndGlobal
