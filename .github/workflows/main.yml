@@ -1,0 +1,39 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                      
+    - uses: actions/setup-dotnet@v1 # Downloads & adds dotnet to PATH
+      with:
+        dotnet-version: '3.0.102' # SDK Version to use.
+                          
+                            
+    - name: dotnet build GoogleLibrary
+      shell: powershell
+      run: |
+        New-Item -ItemType Directory -Path C:\artifacts -Force
+        dotnet build .\GoogleLibrary\GoogleLibrary\GoogleLibrary.csproj -o ../output/GoogleLibrary
+                                                    
+    - name: dotnet pack release
+      working-directory: GoogleLibrary
+      run: dotnet pack -c Release -o ../output
+                                                          
+    - name: Setup NuGet.exe
+      uses: warrenbuckley/Setup-Nuget@v1
+                                                              
+    - name: Setup NuGet source
+      run: nuget sources Add -Name "github" -Source "https://nuget.pkg.github.com/TheBlubb14/index.json" -UserName "TheBlubb14" -Password "${{ secrets.GITHUB_TOKEN }}"
+                                                                  
+    - name: NuGet push
+      working-directory: output
+      run: nuget push *.nupkg -Source "github" -ApiKey "${{ secrets.GITHUB_TOKEN }}" -SkipDuplicate                                                                                                                    
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+                                                                                        
