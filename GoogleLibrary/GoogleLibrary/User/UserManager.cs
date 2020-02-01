@@ -64,18 +64,18 @@ namespace GoogleLibrary.User
         /// UserCredentials Token
         /// with which you can authenticate with other google apis
         /// </summary>
-        public TokenResponse UserToken => _userCredential?.Token;
+        public TokenResponse UserToken => UserCredential?.Token;
 
         /// <summary>
         /// ChannelCredentials
         /// </summary>
-        public ChannelCredentials ChannelCredential => _userCredential?.ToChannelCredentials();
+        public ChannelCredentials ChannelCredential => UserCredential?.ToChannelCredentials();
 
         public static UserManager Instance;
 
         private CancellationToken _cancellationToken;
         private System.Timers.Timer _refreshTimer;
-        private UserCredential _userCredential;
+        public UserCredential UserCredential;
         private FileDataStore _fileDataStore;
 
         #region Timer
@@ -153,11 +153,11 @@ namespace GoogleLibrary.User
 
         private async Task GetOrRefreshCredential()
         {
-            if (_userCredential == null)
-                _userCredential = await GoogleWebAuthorizationBroker.AuthorizeAsync(ClientSecrets, Scope, User, _cancellationToken, _fileDataStore);
+            if (UserCredential == null)
+                UserCredential = await GoogleWebAuthorizationBroker.AuthorizeAsync(ClientSecrets, Scope, User, _cancellationToken, _fileDataStore);
 
-            await _userCredential.RefreshTokenAsync(_cancellationToken);
-            StartRefreshTimer(TimeSpan.FromSeconds(_userCredential.Token.ExpiresInSeconds ?? RetryIn));
+            await UserCredential.RefreshTokenAsync(_cancellationToken);
+            StartRefreshTimer(TimeSpan.FromSeconds(UserCredential.Token.ExpiresInSeconds ?? RetryIn));
         }
 
         /// <summary>
@@ -218,8 +218,8 @@ namespace GoogleLibrary.User
         {
             _cancellationToken = new CancellationToken(true);
             _refreshTimer.Dispose();
-            _userCredential?.RevokeTokenAsync(CancellationToken.None).Wait();
-            _userCredential = null;
+            UserCredential?.RevokeTokenAsync(CancellationToken.None).Wait();
+            UserCredential = null;
         }
     }
 }
